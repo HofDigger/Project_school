@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Login_Fragment"
+    android:background="@drawable/login"
+    android:orientation="vertical"
+    android:paddingTop="380dp"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+
+    >
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Login"
+        android:gravity="center"
+        android:textSize="40sp"
+        android:textColor="@color/navy"
+        android:fontFamily="@font/aileronbold" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Sign in to continue"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:layout_gravity="center"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="EMAIL"
+        android:layout_marginTop="15dp"
+        android:fontFamily="@font/aileronregular"
+        android:textSize="13sp"
+        android:textColor="@color/navy"
+        android:layout_marginStart="50dp"/>
+    <EditText
+        android:id="@+id/etEmail"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:background="@drawable/grey_rectangle"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="10dp"
+        android:textAlignment="textStart"
+        android:hint="."
+        android:textColorHint="@color/grey"
+        android:padding="5dp"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="PASSWORD"
+        android:layout_marginTop="15dp"
+        android:fontFamily="@font/aileronregular"
+        android:textSize="13sp"
+        android:textColor="@color/navy"
+        android:layout_marginStart="50dp" />
+    <EditText
+        android:id="@+id/etPassword"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:background="@drawable/grey_rectangle"
+        android:inputType="textPassword"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="10dp"
+        android:textAlignment="textStart"
+        android:padding="5dp"
+        android:hint="."
+        android:textColorHint="@color/grey"/>
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/login"
+        android:layout_width="320dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="40dp"
+        android:background="@drawable/navy_rectangle"
+        android:layout_marginTop="40dp"
+        android:text="Login"
+        android:textSize="18sp"
+        android:theme="@style/Theme.AppCompat"/>
+
+    <Button
+        android:id="@+id/forgot_pass"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?android:attr/selectableItemBackground"
+        android:text="Forgot Password?"
+        android:textColor="@color/navy"
+        android:textSize="15sp"/>
+
+    <Button
+        android:id="@+id/dont_have_an_account"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?android:attr/selectableItemBackground"
+        android:text="Don't have an account?"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:layout_marginTop="10dp"
+        android:fontFamily="sans-serif-black"/>
+
+
+
+
+
+
+</LinearLayout>
