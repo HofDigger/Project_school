@@ -34,7 +34,7 @@
         android:id="@+id/pfp_button"
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="60dp"
         android:layout_marginBottom="16dp"
         android:background="@drawable/black_circle"
         android:scaleType="fitCenter"
