@@ -3,6 +3,8 @@ package com.example.myapplication;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,9 +21,15 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class HomeFragment extends Fragment {
     private static final String API_KEY = "AIzaSyAAyLI7uxuNysDF5UJXi0wlIshxMw1NVAc";
     private RequestQueue queue;
+    private RecyclerView recyclerView;
+    private CardAdapter cardAdapter;
+    private List<CardItem> cardList;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -29,6 +37,23 @@ public class HomeFragment extends Fragment {
 //
 //        queue = Volley.newRequestQueue(requireContext());
 //        fetchBooksData("meow");
+
+        // מציאת ה-RecyclerView
+        recyclerView = view.findViewById(R.id.recycler_view);
+
+        // הגדרת LayoutManager לגלילה אופקית
+        LinearLayoutManager layoutManager = new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false);
+        recyclerView.setLayoutManager(layoutManager);
+
+        // יצירת רשימה של 10 Cards
+        cardList = new ArrayList<>();
+        for (int i = 1; i <= 10; i++) {
+            cardList.add(new CardItem(R.drawable.images, "Card " + i));
+        }
+
+        // חיבור ה-Adapter ל-RecyclerView
+        cardAdapter = new CardAdapter(requireContext(), cardList);
+        recyclerView.setAdapter(cardAdapter);
 
         return view;
     }
