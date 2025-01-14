@@ -58,6 +58,9 @@ dependencies {
     implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation("com.android.volley:volley:1.2.1")
     implementation ("androidx.cardview:cardview:1.0.0")
+    implementation ("com.squareup.picasso:picasso:2.71828")
+    implementation("com.github.bumptech.glide:glide:4.13.2")
+    implementation("com.github.bumptech.glide:compiler:4.13.2")
 
 
 

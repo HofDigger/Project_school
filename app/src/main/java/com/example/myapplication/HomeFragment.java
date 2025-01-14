@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,73 +26,123 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HomeFragment extends Fragment {
-    private static final String API_KEY = "AIzaSyAAyLI7uxuNysDF5UJXi0wlIshxMw1NVAc";
     private RequestQueue queue;
-    private RecyclerView recyclerView;
-    private CardAdapter cardAdapter;
-    private List<CardItem> cardList;
+    private RecyclerView recyclerView1;
+    private RecyclerView recyclerView2;
+    private RecyclerView recyclerView3;
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_home, container, false);
-//
-//        queue = Volley.newRequestQueue(requireContext());
-//        fetchBooksData("meow");
 
-        // מציאת ה-RecyclerView
-        recyclerView = view.findViewById(R.id.recycler_view);
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+            View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        // הגדרת LayoutManager לגלילה אופקית
-        LinearLayoutManager layoutManager = new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false);
-        recyclerView.setLayoutManager(layoutManager);
+            // Initialize the RequestQueue
+            queue = Volley.newRequestQueue(requireContext());
 
-        // יצירת רשימה של 10 Cards
-        cardList = new ArrayList<>();
-        for (int i = 1; i <= 10; i++) {
-            cardList.add(new CardItem(R.drawable.images, "Card " + i));
+            // Initialize RecyclerViews
+            recyclerView1 = view.findViewById(R.id.recycler_view1);
+            recyclerView2 = view.findViewById(R.id.recycler_view2);
+            recyclerView3 = view.findViewById(R.id.recycler_view3);
+
+            // Set LinearLayoutManager for each RecyclerView
+            recyclerView1.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
+            recyclerView2.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
+            recyclerView3.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
+
+
+            // Fetch data for each RecyclerView
+            fetchBooksData("Sherlock Holmes", new Response.Listener<List<Book>>() {
+                @Override
+                public void onResponse(List<Book> books) {
+                    List<CardItem> cardList1 = new ArrayList<>();
+                    for (Book book : books) {
+                        cardList1.add(new CardItem(book.getThumbnail()));
+                    }
+
+                    // Initialize and set the adapter for the first RecyclerView
+                    CardAdapter cardAdapter1 = new CardAdapter(requireContext(), cardList1);
+                    recyclerView1.setAdapter(cardAdapter1);
+                }
+            });
+
+            fetchBooksData("Nineteen Eighty-four", new Response.Listener<List<Book>>() {
+                @Override
+                public void onResponse(List<Book> books) {
+                    List<CardItem> cardList2 = new ArrayList<>();
+                    for (Book book : books) {
+                        cardList2.add(new CardItem(book.getThumbnail()));
+                    }
+
+                    // Initialize and set the adapter for the second RecyclerView
+                    CardAdapter cardAdapter2 = new CardAdapter(requireContext(), cardList2);
+                    recyclerView2.setAdapter(cardAdapter2);
+                }
+            });
+
+            fetchBooksData("The picture of Dorian Grey", new Response.Listener<List<Book>>() {
+                @Override
+                public void onResponse(List<Book> books) {
+                    List<CardItem> cardList3 = new ArrayList<>();
+                    for (Book book : books) {
+                        cardList3.add(new CardItem(book.getThumbnail()));
+                    }
+
+                    // Initialize and set the adapter for the third RecyclerView
+                    CardAdapter cardAdapter3 = new CardAdapter(requireContext(), cardList3);
+                    recyclerView3.setAdapter(cardAdapter3);
+                }
+            });
+
+            return view;
         }
 
-        // חיבור ה-Adapter ל-RecyclerView
-        cardAdapter = new CardAdapter(requireContext(), cardList);
-        recyclerView.setAdapter(cardAdapter);
 
-        return view;
+    private void fetchBooksData(String query, final Response.Listener<List<Book>> callback) {
+        String url = "https://openlibrary.org/search.json?q=" + query;
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                Request.Method.GET, url, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            JSONArray docs = response.getJSONArray("docs");
+                            List<Book> books = new ArrayList<>();
+                            int addedBooks = 0;
+
+                            for (int i = 0; i < docs.length(); i++) {
+                                if (addedBooks >= 10) break; // Limit to 10 books
+
+                                JSONObject book = docs.getJSONObject(i);
+
+                                // Skip books without a cover image
+                                if (!book.has("cover_i")) continue;
+
+                                String title = book.optString("title", "Unknown Title");
+                                String author = book.optJSONArray("author_name") != null
+                                        ? book.optJSONArray("author_name").join(", ").replace("\"", "")
+                                        : "Unknown Author";
+                                String coverId = book.getString("cover_i");
+                                String thumbnailUrl = "https://covers.openlibrary.org/b/id/" + coverId + "-L.jpg";
+
+                                books.add(new Book(title, author, "No Description", thumbnailUrl));
+                                addedBooks++; // Increment the count of added books
+                            }
+
+                            // Pass the list of books to the callback
+                            callback.onResponse(books);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        error.printStackTrace();
+                    }
+                });
+
+        queue.add(jsonObjectRequest);
     }
-
-//    private void fetchBooksData(String string) {
-//        String query = string;
-//        String url = "https://www.googleapis.com/books/v1/volumes?q=" + query;
-//
-//        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
-//                Request.Method.GET, url, null,
-//                new Response.Listener<JSONObject>() {
-//                    @Override
-//                    public void onResponse(JSONObject response) {
-//                        try {
-//                            JSONArray items = response.getJSONArray("items");
-//                            for (int i = 0; i < items.length(); i++) {
-//                                JSONObject book = items.getJSONObject(i);
-//                                JSONObject volumeInfo = book.getJSONObject("volumeInfo");
-//
-//                                String title = volumeInfo.getString("title");
-//                                String authors = volumeInfo.getJSONArray("authors").join(", ");
-//                                String description = volumeInfo.optString("description", "אין תיאור");
-//                                String thumbnail = volumeInfo.getJSONObject("imageLinks").getString("thumbnail");
-//
-//
-//                            }
-//                        } catch (JSONException e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//                },
-//                new Response.ErrorListener() {
-//                    @Override
-//                    public void onErrorResponse(VolleyError error) {
-//                        error.printStackTrace();
-//                    }
-//                });
-//
-//        queue.add(jsonObjectRequest);
-//    }
 }

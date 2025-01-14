@@ -1,19 +1,15 @@
 package com.example.myapplication;
 
 public class CardItem {
-    private int imageResource;
-    private String text;
+    private String thumbnail;
 
-    public CardItem(int imageResource, String text) {
-        this.imageResource = imageResource;
-        this.text = text;
+    public CardItem(String thumbnail) {
+        this.thumbnail = thumbnail;
+
     }
 
-    public int getImageResource() {
-        return imageResource;
+    public String getThumbnail() {
+        return thumbnail;
     }
 
-    public String getText() {
-        return text;
-    }
 }

@@ -1,15 +1,16 @@
 package com.example.myapplication;
+
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.ImageButton;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.myapplication.CardItem;
-import com.example.myapplication.R;
+import com.bumptech.glide.Glide;
 
 import java.util.List;
 
@@ -32,8 +33,17 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
     @Override
     public void onBindViewHolder(@NonNull CardViewHolder holder, int position) {
         CardItem cardItem = cardList.get(position);
-        holder.cardImage.setImageResource(cardItem.getImageResource());
-        holder.cardText.setText(cardItem.getText());
+
+        Log.d("CardAdapter", "Loading image for position " + position);
+        String imageUrl = cardItem.getThumbnail();
+
+        if (imageUrl != null && !imageUrl.isEmpty()) {
+            Glide.with(context)
+                    .load(imageUrl)
+                    .into(holder.cardImage); // טוען את התמונה ל-ImageButton
+        } else {
+            holder.cardImage.setImageResource(R.drawable.images); // מציג תמונה ברירת מחדל אם אין URL
+        }
     }
 
     @Override
@@ -41,14 +51,13 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
         return cardList.size();
     }
 
+    // ViewHolder שמנהל את ה-ImageButton
     public static class CardViewHolder extends RecyclerView.ViewHolder {
-        ImageView cardImage;
-        TextView cardText;
+        ImageButton cardImage;
 
         public CardViewHolder(@NonNull View itemView) {
             super(itemView);
-            cardImage = itemView.findViewById(R.id.card_image);
-            cardText = itemView.findViewById(R.id.card_text);
+            cardImage = itemView.findViewById(R.id.card_image); // מקשר ל-ImageButton ב-XML
         }
     }
 }
