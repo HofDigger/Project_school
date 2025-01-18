@@ -24,13 +24,18 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class HomeFragment extends Fragment {
     private RequestQueue queue;
     private RecyclerView recyclerView1;
     private RecyclerView recyclerView2;
     private RecyclerView recyclerView3;
-
+    private static final String[] RANDOM_WORDS = {
+            "adventure", "mystery", "science", "fantasy", "history",
+            "romance", "art", "philosophy", "biography", "travel",
+            "the", "a", "book", "story", "life", "world", "dream", "future", "past", "journey"
+    };
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -51,7 +56,7 @@ public class HomeFragment extends Fragment {
 
 
             // Fetch data for each RecyclerView
-            fetchBooksData("Sherlock Holmes", new Response.Listener<List<Book>>() {
+            fetchBooksData(getRandomWord(), new Response.Listener<List<Book>>() {
                 @Override
                 public void onResponse(List<Book> books) {
                     List<CardItem> cardList1 = new ArrayList<>();
@@ -79,7 +84,7 @@ public class HomeFragment extends Fragment {
                 }
             });
 
-            fetchBooksData("The picture of Dorian Grey", new Response.Listener<List<Book>>() {
+            fetchBooksData("Sherlock Holmes", new Response.Listener<List<Book>>() {
                 @Override
                 public void onResponse(List<Book> books) {
                     List<CardItem> cardList3 = new ArrayList<>();
@@ -144,5 +149,11 @@ public class HomeFragment extends Fragment {
                 });
 
         queue.add(jsonObjectRequest);
+    }
+
+    private String getRandomWord() {
+        Random random = new Random();
+        int index = random.nextInt(RANDOM_WORDS.length);
+        return RANDOM_WORDS[index];
     }
 }

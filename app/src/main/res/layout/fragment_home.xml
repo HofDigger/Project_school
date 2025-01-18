@@ -27,7 +27,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Recommended"
+        android:text="Popular Authors"
         android:textSize="25sp"
         android:textStyle="bold"
         android:layout_marginTop="10dp"
@@ -44,7 +44,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Recommended"
+        android:text="New Books"
         android:textSize="25sp"
         android:textStyle="bold"
         android:layout_marginTop="10dp"
