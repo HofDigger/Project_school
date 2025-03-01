@@ -11,6 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Recommended"
+        android:textColor="@color/navy"
         android:textSize="25sp"
         android:textStyle="bold"
         android:layout_marginTop="10dp"
@@ -28,6 +29,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Popular Authors"
+        android:textColor="@color/navy"
         android:textSize="25sp"
         android:textStyle="bold"
         android:layout_marginTop="10dp"
@@ -46,6 +48,7 @@
         android:layout_height="wrap_content"
         android:text="New Books"
         android:textSize="25sp"
+        android:textColor="@color/navy"
         android:textStyle="bold"
         android:layout_marginTop="10dp"
         android:layout_marginStart="15dp"/>

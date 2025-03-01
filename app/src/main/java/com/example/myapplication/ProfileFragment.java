@@ -49,11 +49,6 @@ public class ProfileFragment extends Fragment {
         tv5.setText(sharedPreferences.getString("phoneNumber", "0000000000"));
         tv6.setText(sharedPreferences.getString("dob", "01/01/2000"));
 
-        view.findViewById(R.id.settings_button).setOnClickListener(view1 -> {
-            Intent intent = new Intent(getContext(), profile_buttons.class);
-            startActivity(intent);
-            getActivity().finish();
-        });
 
         view.findViewById(R.id.logout1).setOnClickListener(view1 -> logout());
 

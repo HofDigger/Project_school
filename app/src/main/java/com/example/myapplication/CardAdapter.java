@@ -1,63 +1,63 @@
 package com.example.myapplication;
 
-import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.myapplication.Card;
+import com.example.myapplication.R;
 
 import java.util.List;
 
-public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
-    private Context context;
-    private List<CardItem> cardList;
+public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
 
-    public CardAdapter(Context context, List<CardItem> cardList) {
-        this.context = context;
-        this.cardList = cardList;
+    private List<Book> cardItemList;
+
+    public CardAdapter(List<Book> cardItemList) {
+        this.cardItemList = cardItemList;
     }
 
     @NonNull
     @Override
-    public CardViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.card_item, parent, false);
-        return new CardViewHolder(view);
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        Log.d("CardAdapter", "יצרנו ViewHolder חדש");  // לוג על יצירת ViewHolder
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_item, parent, false);
+        return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CardViewHolder holder, int position) {
-        CardItem cardItem = cardList.get(position);
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        Book cardItem = cardItemList.get(position);
 
-        Log.d("CardAdapter", "Loading image for position " + position);
-        String imageUrl = cardItem.getThumbnail();
+        Log.d("CardAdapter", "מתחילים לטעון תמונה לכרטיס בעמדה: " + position);
 
-        if (imageUrl != null && !imageUrl.isEmpty()) {
-            Glide.with(context)
-                    .load(imageUrl)
-                    .into(holder.cardImage); // טוען את התמונה ל-ImageButton
-        } else {
-            holder.cardImage.setImageResource(R.drawable.images); // מציג תמונה ברירת מחדל אם אין URL
-        }
+        // טעינת התמונה בעזרת Glide
+        Glide.with(holder.imageView.getContext())
+                .load(cardItem.getImageUrl())
+                .into(holder.imageView);
+
+        Log.d("CardAdapter", "התמונה הועמדה לכרטיס בעמדה: " + position);
     }
 
     @Override
     public int getItemCount() {
-        return cardList.size();
+        Log.d("CardAdapter", "מספר הכרטיסים ברשימה: " + cardItemList.size());
+        return cardItemList.size();
     }
 
-    // ViewHolder שמנהל את ה-ImageButton
-    public static class CardViewHolder extends RecyclerView.ViewHolder {
-        ImageButton cardImage;
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        ImageView imageView;
 
-        public CardViewHolder(@NonNull View itemView) {
+        public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            cardImage = itemView.findViewById(R.id.card_image); // מקשר ל-ImageButton ב-XML
+            imageView = itemView.findViewById(R.id.imageView);
+            Log.d("CardAdapter", "יצרנו ViewHolder עם ImageView");
         }
     }
 }

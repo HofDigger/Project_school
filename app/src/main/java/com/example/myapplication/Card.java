@@ -3,15 +3,14 @@ package com.example.myapplication;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class Book implements Parcelable {
+public class Card implements Parcelable {
     private String title;
     private String author;
     private String publicationYear;
     private String description;
-    private String imageUrl;
+    private String imageUrl;  // כאן נשמור את ה-URL של התמונה
 
-    // Constructor
-    public Book(String title, String author, String publicationYear, String description, String imageUrl) {
+    public Card(String title, String author, String publicationYear, String description, String imageUrl) {
         this.title = title;
         this.author = author;
         this.publicationYear = publicationYear;
@@ -19,7 +18,6 @@ public class Book implements Parcelable {
         this.imageUrl = imageUrl;
     }
 
-    // Getters
     public String getTitle() {
         return title;
     }
@@ -41,7 +39,7 @@ public class Book implements Parcelable {
     }
 
     // Parcelable implementation
-    protected Book(Parcel in) {
+    protected Card(Parcel in) {
         title = in.readString();
         author = in.readString();
         publicationYear = in.readString();
@@ -75,3 +73,6 @@ public class Book implements Parcelable {
         }
     };
 }
+
+
+
